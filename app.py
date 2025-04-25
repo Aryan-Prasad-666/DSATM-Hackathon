@@ -544,6 +544,11 @@ def get_locker_facilities():
         app.logger.error(f"Server error in get_locker_facilities route: {e}")
         return jsonify({'error': 'Internal server error'}), 500
 
+
+@app.route('/account_guide')
+def account_guide():
+    return render_template('account_guide.html')
+
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
