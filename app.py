@@ -557,6 +557,15 @@ def get_locker_facilities():
 def account_guide():
     return render_template('account_guide.html')
 
+
+@app.route('/fraud_alerts')
+def fraud_alerts():
+    try:
+        return render_template('fraud_alerts.html')
+    except Exception as e:
+        app.logger.error(f"Error rendering fraud_alerts page: {e}")
+        raise InternalServerError("Failed to load the fraud alerts page")
+
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
