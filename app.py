@@ -19,7 +19,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 try:
     api_key = os.getenv('GOOGLE_API_KEY')
     if not api_key:
-        raise ValueValueError("GOOGLE_API_KEY not found in .env file")
+        raise ValueError("GOOGLE_API_KEY not found in .env file")
     genai.configure(api_key=api_key)
 except ValueError as e:
     print(f"Configuration error: {e}")
