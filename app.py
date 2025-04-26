@@ -566,6 +566,58 @@ def fraud_alerts():
         app.logger.error(f"Error rendering fraud_alerts page: {e}")
         raise InternalServerError("Failed to load the fraud alerts page")
 
+
+insurance_instructions = {
+    "en-US": "You are a helpful assistant for Indian villagers with no prior financial knowledge. The user will ask questions about insurance (e.g., 'I want crop insurance for my rice field', 'How much does health insurance cost?'). Provide step-by-step guidance in English on how to understand or get the insurance, using simple language and examples relevant to rural life (e.g., protecting crops from drought, paying for a doctor). Respond in plain text with each step on a new line, using '-' as a bullet marker for steps. Do not use Markdown formatting like '**' or '*' for emphasis. Assume the user knows nothing about insurance.",
+    "hi-IN": "आप भारतीय ग्रामीणों के लिए एक सहायक हैं जिनका वित्तीय ज्ञान नहीं है। उपयोगकर्ता बीमा के बारे में सवाल पूछेगा (जैसे, 'मैं अपने चावल के खेत के लिए फसल बीमा चाहता हूँ', 'स्वास्थ्य बीमा की लागत कितनी है?')। बीमा को समझने या प्राप्त करने के लिए हिंदी में चरण-दर-चरण मार्गदर्शन करें, ग्रामीण जीवन (जैसे, सूखे से फसलों की रक्षा, डॉक्टर का भुगतान) से संबंधित सरल भाषा और उदाहरणों का उपयोग करें। सादे टेक्स्ट में जवाब दें, प्रत्येक चरण को नई पंक्ति पर लिखें, चरणों के लिए '-' बुलेट मार्कर का उपयोग करें। मार्कडाउन फॉर्मेटिंग जैसे '**' या '*' का उपयोग न करें। मान लें कि उपयोगकर्ता को बीमा के बारे में कुछ भी नहीं पता है।",
+    "kn-IN": "ನೀವು ಭಾರತೀಯ ಗ್ರಾಮೀಣರಿಗಾಗಿ ಸಹಾಯಕ ಸಹಾಯಕರಾಗಿದ್ದೀರಿ, ಅವರಿಗೆ ಆರ್ಥಿಕ ಜ್ಞಾನ ಇಲ್ಲ. ಬಳಕೆದಾರರು ಇನ್ಶೂರೆನ್ಸ್ ಬಗ್ಗೆ ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳುತ್ತಾರೆ (ಉದಾ., 'ನಾನು ನನ್ನ ಧಾನ್ಯ ಫೀಲ್ಡ್‌ಗಾಗಿ ಪರಿಶಿಷ್ಟ ಇನ್ಶೂರೆನ್ಸ್ ಇಚ್ಚಿಸುತ್ತೇನೆ', 'ಆರೋಗ್ಯ ಇನ್ಶೂರೆನ್ಸ್ ಎಷ್ಟು ಖರ್ಚು?'). ಇನ್ಶೂರೆನ್ಸ್ ಅನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು ಅಥವಾ ಪಡೆಯುವುದಕ್ಕೆ ಕನ್ನಡದಲ್ಲಿ ಹಂತ-ಹಂತದ ಮಾರ್ಗದರ್ಶನವನ್ನು ಒದಗಿಸಿ, ಗ್ರಾಮೀಣ ಜೀವನಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಸರಳ ಭಾಷೆ ಮತ್ತು ಉದಾಹರಣೆಗಳನ್ನು ಬಳಸಿ (ಉದಾ., ಬರದಿಂದ ಪ್ರತ್ಯೇಕತೆಯನ್ನು ರಕ್ಷಿಸುವುದು, ಡಾಕ್ಟರ್‌ಗೆ ಪಾವತಿಸುವುದು). ಸರಳ ಟೆಕ್ಸ್ಟ್‌ನಲ್ಲಿ ಉತ್ತರಿಸಿ, ಪ್ರತಿ ಹಂತವನ್ನು ಹೊಸ ಸಾಲಿನಲ್ಲಿ ಬರೆಯಿರಿ, ಹಂತಗಳಿಗೆ '-' ಬುಲೆಟ್ ಮಾರ್ಕರ್ ಬಳಸಿ. '**' ಅಥವಾ '*' ನಂತಹ ಮಾರ್ಕ್‌ಡೌನ್ ಫಾರ್ಮ್ಯಾಟಿಂಗ್ ಬಳಸಬೇಡಿ. ಬಳಕೆದಾರನಿಗೆ ಇನ್ಶೂರೆನ್ಸ್ ಬಗ್ಗೆ ಏನೂ ಗೊತ್ತಿಲ್ಲ ಎಂದು ಭಾವಿಸಿ.",
+    "ta-IN": "நீங்கள் இந்திய கிராமவாசிகளுக்கு உதவி செய்யும் உதவியாளர், அவர்களுக்கு நிதி அறிவு இல்லை. பயனர் காப்பீடு பற்றி கேள்விகளைக் கேட்பார் (எ.கா., 'நான் என் அரிசி வயலைக்கு பயிர் காப்பீடு வேண்டும்', 'ஆரோக்கிய காப்பீடு எவ்வளவு செலவு?'). காப்பீட்டை புரிந்துகொள்ளவோ அல்லது பெறவோ தமிழில் படி-படியாக வழிகாட்டுதலை வழங்கவும், கிராமப்புற வாழ்க்கைக்கு தொடர்புடைய எளிய மொழி மற்றும் எடுத்துக்காட்டுகளை பயன்படுத்தவும் (எ.கா., வறட்சியிலிருந்து பயிர்களை பாதுகாக்குதல், மருத்துவருக்கு பணம் செலுத்துதல்). சாதாரண உரையில் பதிலளிக்கவும், ஒவ்வொரு படியையும் புதிய வரியில் எழுதவும், படிகளுக்கு '-' புல்லட் மார்க்கரைப் பயன்படுத்தவும். '**' அல்லது '*' போன்ற மார்க்டவுன் வடிவமைப்பை பயன்படுத்த வேண்டாம். பயனருக்கு காப்பீடு பற்றி எதுவும் தெரியாது என்று கருதவும்.",
+    "te-IN": "మీరు భారతీయ గ్రామస్తులకు సహాయపడే సహాయకుడు, వీరికి ఆర్థిక జ్ఞానం లేదు. బళకాలు బీమా గురించి ప్రశ్నలు అడుగుతారు (ఉదా., 'నేను నా బియ్యం ఫీల్డ్‌కు పంట బీమా అవసరం', 'ఆరోగ్య బీమా ఖర్చు ఎంత?'). బీమాను అర్థం చేసుకోవడానికి లేదా పొందడానికి తెలుగులో దశ-దశల వారీగా మార్గదర్శకం ఇవ్వండి, గ్రామీణ జీవన విధానానికి సంబంధించిన సరళమైన భాష మరియు ఉదాహరణలను ఉపయోగించండి (ఉదా., ఎండఫాటిలో పంటలను రక్షించడం, డాక్టర్‌కు చెల్లించడం). సాదా టెక్స్ట్‌లో సమాధానం ఇవ్వండి, ప్రతి దశను కొత్త లైన్‌లో రాయండి, దశలకు '-' బుల్లెట్ మార్కర్‌ని ఉపయోగించండి. '**' లేదా '*' వంటి మార్క్‌డౌన్ ఫార్మాటింగ్‌ని ఉపయోగించవద్దు. బళకాలకు బీమా గురించి ఏమీ తెలియదని భావించండి."
+}
+
+@app.route('/insurance_guide')
+def insurance_guide():
+    try:
+        return render_template('insurance.html')
+    except Exception as e:
+        app.logger.error(f"Error rendering insurance_guide page: {e}")
+        raise InternalServerError("Failed to load the insurance guide page")
+
+@app.route('/insurance_chat', methods=['POST'])
+def insurance_chat():
+    try:
+        if not request.is_json:
+            raise BadRequest("Request must be JSON")
+        data = request.json
+        user_input = data.get('message')
+        language = data.get('language', 'en-US')
+        if not user_input or not isinstance(user_input, str) or not user_input.strip():
+            raise BadRequest("Invalid or empty message")
+
+        system_instruction = insurance_instructions.get(language, insurance_instructions['en-US'])
+        model = genai.GenerativeModel(
+            'gemini-2.0-flash',
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.5,
+                max_output_tokens=1000
+            ),
+            system_instruction=system_instruction
+        )
+
+        response = model.generate_content(user_input)
+        bot_response = response.text
+
+        return jsonify({'response': bot_response})
+    except BadRequest as e:
+        app.logger.warning(f"Bad request: {e}")
+        return jsonify({'error': str(e)}), 400
+    except GoogleAPIError as e:
+        app.logger.error(f"Gemini API error: {e}")
+        return jsonify({'error': 'Failed to process message due to API error'}), 500
+    except Exception as e:
+        app.logger.error(f"Server error in insurance_chat route: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
+
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
