@@ -102,7 +102,7 @@
             overflow: hidden;
             white-space: normal;
             line-height: 1.2;
-            margin: 0 0.5rem;
+            margin: 0 0.7rem;
         }
 
         .nav-link::before {
@@ -307,10 +307,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                        <a class="nav-link" href="{{ url_for('index') }}">Home<br>Page</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('chatbot') }}">Chatbot</a>
+                        <a class="nav-link" href="{{ url_for('chatbot') }}">Financial<br>Advisor</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('account_guide') }}">Accounts<br>Guide</a>
@@ -331,7 +331,7 @@
                         <a class="nav-link" href="{{ url_for('upload_form') }}">Forms<br>Guide</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('tips') }}">Tips</a>
+                        <a class="nav-link" href="{{ url_for('tips') }}">General<br>Advice</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('fraud_alerts') }}">Report<br>Fraud</a>
@@ -357,7 +357,7 @@
                 </div>
                 <div class="col-md-4 text-center mb-5 quick-links">
                     <h5>Quick Links</h5>
-                    <p><a href="{{ url_for('index') }}">Home</a>  |  <a href="{{ url_for('upload_form') }}">Forms Guide</a></p>
+                    <p><a href="{{ url_for('index') }}">Home Page</a>  |  <a href="{{ url_for('upload_form') }}">Forms Guide</a></p>
                     <p>Contact: <a href="mailto:support@dsatm-aartha.ai">support@aartha.ai</a></p>
                     <p>Phone: +91-8005551234</p>
                 </div>
